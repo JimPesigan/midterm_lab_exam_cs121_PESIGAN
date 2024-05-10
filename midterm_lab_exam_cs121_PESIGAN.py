@@ -6,69 +6,167 @@ game_library = {
     # Add more games as needed
 }
 
+
 # Dictionary to store user accounts with their balances and points
 user_accounts = {}
 
+
 # Function to display available games with their numbers and rental costs
 def display_available_games():
-    pass
+    print("Available Games:")
+
+    for game, details in game_library.items():
+        if details["quantity"] > 0:
+            print(f"{game}: {details['quantity']} available, Cost: ${details['cost']} per game")
+        
+    input("Press enter to go back")
+
 
 # Function to register a new user
 def register_user():
-    print("REGISTRATION PAGE")
+    while True:
+        try:
+            print("REGISTRATION PAGE")
 
-    username = input("Please enter your username:")
-    password = input("Please enter your passwrd:")
+            username = input("Please enter your username:")
+            password= input("Please enter your passwrd:")
 
-    if username in user_accounts:
-        print()
+            if username in user_accounts:
+                print("Username already exists. Please enter another one.")
+            else:
+                print("Account registered successfully.")
+                user_accounts[username] = {
+                "username": username,
+                "password": password,
+                "Balance": 0,
+                "Points": 0,
+                "rented_games": []
+                }
+                return
+        except ValueError:
+            print("Please enter a correct imput.")        
+    
 
 # Function to rent a game
 def rent_game(username):
     pass
 
+
 # Function to return a game
 def return_game(username):
     pass
+
 
 # Function to top-up user account
 def top_up_account(username, amount):
     pass
 
+
 # Function to display user's inventory
 def display_inventory(username):
     pass
+
 
 # Function for admin to update game details
 def admin_update_game(username):
     pass
 
+
 # Function for admin login
 def admin_login():
-    admin_username = "admin"
-    admin_password = "adminpass"
+    print("ADMIN LOGIN PAGE")
 
-    pass
+    admin_username = input("Username: ")
+    admin_password = input("Password: ")
+
+    if admin_username == "admin" and admin_password == "adminpass":
+        print("Login Successful!")
+        admin_menu()
+    else:
+        print("Invalid username or password.")
+
 
 # Admin menu
 def admin_menu():
-    pass
+    while True:
+        try:
+            print("Admin Menu")
+            print("1. Update Game Details")
+            print("2. Log out")
+
+            choice = input("Enter your choice: ")
+
+            if choice == "1":
+                admin_update_game()
+            elif choice == "2":
+                print("Logging out.")
+                return
+            else:
+                print("Please input a valid option")
+        except ValueError:
+            print("Please enter a correct input.")      
+            return
 
 # Function for users to redeem points for a free game rental
 def redeem_free_rental(username):
     pass
 
+
 # Function to display game inventory
 def display_game_inventory():
     pass
 
+
 # Function to handle user's logged-in menu
 def logged_in_menu(username):
-    pass
+    while True:
+        try:
+            print(f"Welcome {username}!")
+            print("1. Rent a game")
+            print("2. Return a game")
+            print("3. Top-up Account")
+            print("4. Display inventory")
+            print("5. Redeem free game rental")
+            print("6. Log out")
+
+            choice = input("Please enter your choice: ")
+
+            if choice == "1":
+                rent_game(username)
+            elif choice == "2":
+                return_game(username)
+            elif choice == "3":
+                top_up_account(username, amount)
+            elif choice == "4":
+                display_game_inventory()
+            elif choice == "5":
+                redeem_free_rental(username)
+            elif choice == "6":
+                print("Logging out.")
+                return
+
+
+            else:
+                print("Please input a valid option")
+
+        except ValueError:
+            print("Please enter a correct input.")      
+            return
+
 
 # Function to check user credentials
-def check_credentials(username, password):
-    pass
+def check_credentials():
+    print("LOGIN PAGE")
+
+    username = input("Please enter your username: ")
+    password = input("Please enter your password: ")
+
+    if username in user_accounts and user_accounts[username]["password"] == password:
+        print("Login Successful.")
+        logged_in_menu(username)
+    else:
+        print("Invalid username or password.")
+        
     
 # Main function to run the program
 def main():
@@ -76,19 +174,19 @@ def main():
         try:
                 print("WELCOME TO RENTAL GAME SYSTEM")
                 print("1. Display Available Games")
-                print("1. Register Usser")
-                print("1. Login")
-                print("1. Admin Login")
-                print("1. Exit ")
+                print("2. Register User")
+                print("3. Login")
+                print("4. Admin Login")
+                print("5. Exit ")
 
-                choice = input("Please enter your choice:")
+                choice = input("Please enter your choice: ")
 
                 if choice == "1":
                     display_available_games()
                 elif choice =="2":
                     register_user()
                 elif choice =="3":
-                    check_credentials(username, password)
+                    check_credentials()
                 elif choice =="4":
                     admin_login()
                 elif choice =="5":
@@ -97,9 +195,8 @@ def main():
                 else:
                     print("Invalid Choice! Please enter a valid option")           
         except ValueError:
-            print("Please enter a correct imput")      
+            print("Please enter a correct input.")      
             return  
 
 
-if _name_ == "_main_":
-    main()
+main()
